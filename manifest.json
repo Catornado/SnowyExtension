@@ -1,0 +1,47 @@
+{
+	"manifest_version": 3,
+	"name": "Snowy the Assistant",
+	"version": "1.0",
+	"action": {
+		"default_icon": {
+			"16": "sysimages/snowy16.png",
+			"24": "sysimages/snowy24.png",
+			"32": "sysimages/snowy32.png",
+			"48": "sysimages/snowy48.png",
+			"64": "sysimages/snowy64.png",
+			"128": "sysimages/snowy128.png"
+		},
+		"default_popup": "popup.html"
+
+
+	},
+	"icons": {
+		"16": "sysimages/snowy16.png",
+		"24": "sysimages/snowy24.png",
+		"32": "sysimages/snowy32.png",
+		"48": "sysimages/snowy48.png",
+		"64": "sysimages/snowy64.png",
+		"128": "sysimages/snowy128.png"
+	},
+	"description": "summons snowy.",
+	"background": {
+		"service_worker": "scripts/background.js"
+	},
+	"content_scripts": [
+		{
+			"js": ["scripts/snowy.js"],
+			"matches": [
+				"<all_urls>"
+				
+			]
+		}
+	],
+	"permissions": [
+		"tabs",
+		"https://*/*",
+		"http://*/*",
+		"scripting",
+		"storage",
+		"activeTab"
+	]
+}
