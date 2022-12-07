@@ -38,8 +38,7 @@
 	],
 	"permissions": [
 		"tabs",
-		"https://*/*",
-		"http://*/*",
+		"*://*/*",
 		"scripting",
 		"storage",
 		"activeTab"
