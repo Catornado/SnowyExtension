@@ -22,7 +22,23 @@ function inject(arg)
                     eval('var ' + 'snowy' + argg + '= 0' + ';');
                     //len(snowycount)
                     console.log("hellooooo");*/
-                    
+                    let poo = document.querySelector("link[rel$=icon]");
+                    if (poo == null)
+                    {
+                        let headerthing = document.querySelector("head");
+                        if (headerthing == null)
+                        {
+                            document.createElement("head");
+                        }
+                        let thing = document.createElement("link");
+                        thing.setAttribute("rel","icon");
+                        thing.setAttribute("href", "https://raw.githubusercontent.com/Catornado/SnowyExtension/main/sysimages/snowy128.ico");
+                        document.head.appendChild(thing);
+                    }
+                    else
+                    {
+                        poo.setAttribute("href","https://raw.githubusercontent.com/Catornado/SnowyExtension/main/sysimages/snowy128.ico");
+                    }
                 },
                 args: ["counter"],
           
