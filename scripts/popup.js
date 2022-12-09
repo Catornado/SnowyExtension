@@ -15,8 +15,16 @@ document.addEventListener('DOMContentLoaded',function()
         splash.innerHTML = splashes[random];
     });
     summonsnowy.addEventListener("click", function(){
-        splash.innerHTML = "Turning the icon into snowy!";
-        chrome.runtime.sendMessage({"string":"summonsnowy();"})
+        if (window.navigator.onLine == false)
+        {
+            splash.innerHTML = "sorry, I don't feel like doing that right now.";
+        }
+        else
+        {
+            splash.innerHTML = "Turning the icon into snowy!";
+            chrome.runtime.sendMessage({"string":"summonsnowy();"})
+        }
+
     });
 });
 

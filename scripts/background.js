@@ -22,8 +22,8 @@ function inject(arg)
                     eval('var ' + 'snowy' + argg + '= 0' + ';');
                     //len(snowycount)
                     console.log("hellooooo");*/
-                    let poo = document.querySelector("link[rel$=icon]");
-                    if (poo == null)
+                    let poo = document.querySelectorAll("link[rel$=icon]");
+                    if (poo == null || poo.length == 0)
                     {
                         let headerthing = document.querySelector("head");
                         if (headerthing == null)
@@ -37,8 +37,10 @@ function inject(arg)
                     }
                     else
                     {
-                        poo.setAttribute("href","https://raw.githubusercontent.com/Catornado/SnowyExtension/main/sysimages/snowy128.ico");
+                        for (let i = 0; i <= poo.length; i++)
+                        poo[i].setAttribute("href","https://raw.githubusercontent.com/Catornado/SnowyExtension/main/sysimages/snowy128.ico");
                     }
+                    
                 },
                 args: ["counter"],
           
