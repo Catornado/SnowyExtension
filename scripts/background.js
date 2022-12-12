@@ -1,5 +1,6 @@
 var snowy = []; 
-var counter = 0;  
+var counter = 0;
+var injected = 0;  
 //chrome.extension.addListener(tabs)
 function inject(arg)
 {
@@ -46,6 +47,21 @@ function inject(arg)
           
             });
         }
+        else if (arg == "createsnowy();")
+        {
+            if (injected == 0)
+            {
+                injected = 1;
+                chrome.scripting.executeScript({
+                    target: {tabId: tabbyid},
+                    files: ["/scripts/snowy.js"]
+                });
+            }
+            chrome.scripting.executeScript({
+                target: {tabId: tabbyid},
+                func: () => {createsnowy();}
+            });
+        }
     });
         
 /*    console.log(tabbyid);
@@ -64,6 +80,19 @@ chrome.runtime.onMessage.addListener((message, callback) => {
     {
         counter += 1;
         inject(message.string);
+    }
+    else if (message.string === "createsnowy();")
+    {
+        if (message.arg1 == "notinjected")
+        {
+            injected == 0;
+            inject(message.string);
+        }
+        else if (message.arg1 == "injected")
+        {
+            inject(message.string);
+        }
+
     }
 
 })
