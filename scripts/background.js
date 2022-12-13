@@ -75,6 +75,8 @@ function inject(arg)
 */
     console.log("test");
 }
+
+
 chrome.runtime.onMessage.addListener((message, callback) => {
     if (message.string === "summonsnowy();")
     {
