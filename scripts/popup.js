@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded',function()
     let snowyhead = document.querySelector("#snowy");
     let summonsnowy = document.querySelector("#summon");
     let createsnowy = document.querySelector("#create");
+    let tictactoe = document.querySelector("#tictactoe");
     let splash = document.querySelector("#splashmessage");
     let random = 0;
     let injected = 0;
@@ -48,6 +49,10 @@ document.addEventListener('DOMContentLoaded',function()
                 chrome.runtime.sendMessage({"string":"createsnowy();", "arg1":"injected"})                    
             }
         }
+    });
+    tictactoe.addEventListener("click", function(){
+        splash.innerHTML = "starting tic-tac-toe!";
+        window.open("games/tictactoe.html", popup = true);
     });
 });
 
