@@ -1,8 +1,21 @@
 div {
-    fill:white;
-    height: 30px;
-    width: 30px;
+    background-color:white;
+    position: static;
+    float: left;
+    height: 130px;
+    text-align: center;
+    font-size: 30pt;
+    font-family: 'Microsoft Sans Serif', Tahoma, sans-serif;
+    width: 130px;
+    
 }
+.container {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: auto auto auto;
+}
+
+
 body {
     background-color: red;
 }

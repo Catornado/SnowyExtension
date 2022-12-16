@@ -10,116 +10,40 @@ var board = [
 ];
 var playersymbol = 1;
 var snowysymbol = 0;
-function emptyslots(loadedboard)
+var currentboard = document.querySelectorAll(".cell");
+var gameend = false;
+var winner = 2;
+for (let i = 0; i < currentboard.length; i++)
 {
-    return loadedboard.filter((value) => value != "X" && value != "O");
+    currentboard[i].addEventListener("click", playermoved)
 }
-function win(boardd, team)//0 is o and 1 is x
+
+function playermoved()
 {
-    for (let i = 0; i < 9; i++)
+    if (!this.innerHTML && gameend == false)
     {
-        for (let j = 0; j < 9; j++)
-        {
-            if (team == 0 && boardd[i] == "O" && boardd[j] == "O" && boardd[k] == "O")
-            {
-                if (magicboard[i] + magicboard[j] + magicboard[k] == 15)
-                {
-                    if (i != j && i != k && j != k)
-                    {
-                        return 1;
-                    }
-                       
-                }
-            }
-            else if (team == 1 && boardd[i] == "X" && boardd[j] == "X" && boardd[k] == "X")
-            {
-                if (magicboard[i] + magicboard[j] + magicboard[k] == 15)
-                {
-                    if (i != j && i != k && j != k)
-                    {
-                        return 1;
-                    }   
-                }
-            }
-        }
+        this.innerHTML = playersymbol;
     }
-    return 0;
 }
-function algorithm(loadedboard, symbol)
+function playgame() 
 {
-    let info = [];
-    let empty = emptyslots(loadedboard);
-    if (win(loadedboard, playersymbol) == 1)
-    {
-        //blank
-        return {score: -1};
+    playmove();
+    if (win(currentboard, 0) == 1)
+    {//o wins
+        gameend = true;
+        winner = 0;
     }
-    else if (win(loadedboard,snowysymbol) == 1)
-    {
-        return {score: -1};
+    else if (win(currentboard, 1) == 1)
+    {//x wins
+        gameend = true;
+        winner = 1;
     }
-    else if (empty.length == 0)
-    {
-        return {score: 0};
-    }
-    for (let i = 0; i < empty.length; i++)
-    {
-        let currentinfo = {};
-        currentinfo.index = loadedboard[empty[i]];
-        if (symbol == 1)
-        {
-            loadedboard[empty[i]] = "X";
-        }
-        else
-        {
-            loadedboard[empty[i]] = "O";
-        }
-        if (symbol == snowysymbol)
-        {
-            let result = algorithm(loadedboard, playersymbol);
-            currentinfo.score = result.score;
-        }
-        else
-        {
-            let result = algorithm(loadedboard, snowysymbol);
-            currentinfo.score = result.score;
-        }
-        boardstate[empty[i]] = currentinfo.index;
-        info.push(currentinfo);
-    }
-    //get best score from banks
-    let bestplay = null;
-    if (symbol == snowysymbol)
-    {
-        let tempbest = -222;
-        for (let i = 0; i < info.length; i++)
-        {
-            if (info[i].score > tempbest)
-            {
-                tempbest = info[i].score;
-                bestplay = i;
-            }
-        }
-    }
-    else
-    {
-        let tempbest = 222;
-        for (let i = 0; i < info.length; i++)
-        {
-            if (info[i].score < tempbest)
-            {
-                tempbest = info[i].score;
-                bestplay = i;
-            }
-        }
-    }
-    return info[bestplay];
-    //subtract result from bad guy from 15
-//minimax or magic square
+
 }
-var bestplayinfo = minimax(board, snowysymbol);
 function startgame(player)
 {
+    gameend = false;
+    winner = 2;
     playersymbol = player;
     if (player == 1)
     {
@@ -129,4 +53,128 @@ function startgame(player)
     {
         snowysymbol = 1;
     }
+    for (let i = 0; i < currentboard.length; i++)
+    {
+        currentboard[i].innerHTML = "";
+    }
 }
+function playmove() {
+    let theboard = [];
+    for (let i = 0; i < currentboard.length; i++)
+    {
+        theboard.push(currentboard[i].innerHTML);
+    }
+    function emptyslots(loadedboard)
+    {
+        return loadedboard.filter((value) => value != "X" && value != "O");
+    }
+    function win(boardd, team)//0 is o and 1 is x
+    {
+        for (let i = 0; i < 9; i++)
+        {
+            for (let j = 0; j < 9; j++)
+            {
+                if (team == 0 && boardd[i] == "O" && boardd[j] == "O" && boardd[k] == "O")
+                {
+                    if (magicboard[i] + magicboard[j] + magicboard[k] == 15)
+                    {
+                        if (i != j && i != k && j != k)
+                        {
+                            return 1;
+                        }
+                        
+                    }
+                }
+                else if (team == 1 && boardd[i] == "X" && boardd[j] == "X" && boardd[k] == "X")
+                {
+                    if (magicboard[i] + magicboard[j] + magicboard[k] == 15)
+                    {
+                        if (i != j && i != k && j != k)
+                        {
+                            return 1;
+                        }   
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+    function algorithm(loadedboard, symbol)
+    {
+
+        let empty = emptyslots(loadedboard);
+        if (win(loadedboard, playersymbol) == 1)
+        {
+            //blank
+            return {score: -1};
+        }
+        else if (win(loadedboard,snowysymbol) == 1)
+        {
+            return {score: -1};
+        }
+        else if (empty.length == 0)
+        {
+            return {score: 0};
+        }
+        let info = [];
+        for (let i = 0; i < empty.length; i++)
+        {
+            let currentinfo = {};
+            currentinfo.index = loadedboard[empty[i]];
+            if (symbol == 1)
+            {
+                loadedboard[empty[i]] = "X";
+            }
+            else
+            {
+                loadedboard[empty[i]] = "O";
+            }
+            if (symbol == snowysymbol)
+            {
+                let result = algorithm(loadedboard, playersymbol);
+                currentinfo.score = result.score;
+            }
+            else
+            {
+                let result = algorithm(loadedboard, snowysymbol);
+                currentinfo.score = result.score;
+            }
+            boardstate[empty[i]] = currentinfo.index;
+            info.push(currentinfo);
+        }
+        //get best score from banks
+        let bestplay = null;
+        if (symbol == snowysymbol)
+        {
+            let tempbest = -222;
+            for (let i = 0; i < info.length; i++)
+            {
+                if (info[i].score > tempbest)
+                {
+                    tempbest = info[i].score;
+                    bestplay = i;
+                }
+            }
+        }
+        else
+        {
+            let tempbest = 222;
+            for (let i = 0; i < info.length; i++)
+            {
+                if (info[i].score < tempbest)
+                {
+                    tempbest = info[i].score;
+                    bestplay = i;
+                }
+            }
+        }
+        return info[bestplay];
+        //subtract result from bad guy from 15
+    //minimax or magic square
+    }
+    var bestplayinfo = algorithm(theboard, snowysymbol);
+    theboard[bestplayinfo.index].innerHTML = snowysymbol;
+}
+
+
+

@@ -1,0 +1,10 @@
+div {
+    background-color:white;
+    position: static;
+    float: left;
+    height: 30px;
+    width: 30px;
+}
+body {
+    background-color: red;
+}
