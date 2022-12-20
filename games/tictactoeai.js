@@ -11,18 +11,70 @@ var board = [
 var playersymbol = 1;
 var snowysymbol = 0;
 var currentboard = document.querySelectorAll(".cell");
-var gameend = false;
+const startbootenx = document.querySelector("#startx");
+const startbooteno = document.querySelector("#starto");
+var gameend = true;
 var winner = 2;
 for (let i = 0; i < currentboard.length; i++)
 {
     currentboard[i].addEventListener("click", playermoved)
 }
-
+startbootenx.addEventListener("click", function(){startgame(1)});
+startbooteno.addEventListener("click", function(){startgame(0)});
+function checkforwin(boardd)//0 is o and 1 is x
+{
+    for (let i = 0; i < 9; i++)
+    {
+        for (let j = 0; j < 9; j++)
+        {
+            for (let k = 0; k < 9; k++)
+            {
+                if (boardd[i].innerHTML == "O" && boardd[j].innerHTML == "O" && boardd[k].innerHTML == "O")
+                {
+                    if (magicboard[i] + magicboard[j] + magicboard[k] == 15)
+                    {
+                        if (i != j && i != k && j != k)
+                        {
+                            gameend = true;
+                            return 1;
+                        }
+                        
+                    }
+                }
+                else if (boardd[i].innerHTML == "X" && boardd[j].innerHTML == "X" && boardd[k].innerHTML == "X")
+                {
+                    if (magicboard[i] + magicboard[j] + magicboard[k] == 15)
+                    {
+                        if (i != j && i != k && j != k)
+                        {
+                            gameend = true;
+                            return 1;
+                        }   
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
 function playermoved()
 {
     if (!this.innerHTML && gameend == false)
     {
-        this.innerHTML = playersymbol;
+        if (playersymbol == 0)
+        {
+            this.innerHTML = "O";
+        }
+        else
+        {
+            this.innerHTML = "X";
+        }
+        checkforwin(currentboard);
+        if (gameend != true)
+        {
+            playmove();
+            checkforwin(currentboard);
+        } 
     }
 }
 function playgame() 
@@ -62,7 +114,14 @@ function playmove() {
     let theboard = [];
     for (let i = 0; i < currentboard.length; i++)
     {
-        theboard.push(currentboard[i].innerHTML);
+        if (currentboard[i].innerHTML != "")
+        {
+            theboard.push(currentboard[i].innerHTML);
+        }
+        else
+        {
+            theboard.push(i);
+        }
     }
     function emptyslots(loadedboard)
     {
@@ -74,25 +133,28 @@ function playmove() {
         {
             for (let j = 0; j < 9; j++)
             {
-                if (team == 0 && boardd[i] == "O" && boardd[j] == "O" && boardd[k] == "O")
+                for (let k = 0; k < 9; k++)
                 {
-                    if (magicboard[i] + magicboard[j] + magicboard[k] == 15)
+                    if (team == 0 && boardd[i] == "O" && boardd[j] == "O" && boardd[k] == "O")
                     {
-                        if (i != j && i != k && j != k)
+                        if (magicboard[i] + magicboard[j] + magicboard[k] == 15)
                         {
-                            return 1;
+                            if (i != j && i != k && j != k)
+                            {
+                                return 1;
+                            }
+                            
                         }
-                        
                     }
-                }
-                else if (team == 1 && boardd[i] == "X" && boardd[j] == "X" && boardd[k] == "X")
-                {
-                    if (magicboard[i] + magicboard[j] + magicboard[k] == 15)
+                    else if (team == 1 && boardd[i] == "X" && boardd[j] == "X" && boardd[k] == "X")
                     {
-                        if (i != j && i != k && j != k)
+                        if (magicboard[i] + magicboard[j] + magicboard[k] == 15)
                         {
-                            return 1;
-                        }   
+                            if (i != j && i != k && j != k)
+                            {
+                                return 1;
+                            }   
+                        }
                     }
                 }
             }
@@ -110,7 +172,7 @@ function playmove() {
         }
         else if (win(loadedboard,snowysymbol) == 1)
         {
-            return {score: -1};
+            return {score: 1};
         }
         else if (empty.length == 0)
         {
@@ -139,7 +201,7 @@ function playmove() {
                 let result = algorithm(loadedboard, snowysymbol);
                 currentinfo.score = result.score;
             }
-            boardstate[empty[i]] = currentinfo.index;
+            loadedboard[empty[i]] = currentinfo.index;
             info.push(currentinfo);
         }
         //get best score from banks
@@ -173,8 +235,17 @@ function playmove() {
     //minimax or magic square
     }
     var bestplayinfo = algorithm(theboard, snowysymbol);
-    theboard[bestplayinfo.index].innerHTML = snowysymbol;
+    if (snowysymbol == 1)
+    {
+        currentboard[bestplayinfo.index].innerHTML = "X";
+    }
+    else
+    {
+        currentboard[bestplayinfo.index].innerHTML = "O";
+    }
+    
 }
 
 
 
+//credit to codesweetly's "how minimax works"
