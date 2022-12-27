@@ -13,14 +13,42 @@ var snowysymbol = 0;
 var currentboard = document.querySelectorAll(".cell");
 const startbootenx = document.querySelector("#startx");
 const startbooteno = document.querySelector("#starto");
+const enemyicon = document.querySelector("#snowyhead");
+const bubble = document.querySelector("#speechbubble"); 
+var gamestarted = false;
 var gameend = true;
 var winner = 2;
 for (let i = 0; i < currentboard.length; i++)
 {
     currentboard[i].addEventListener("click", playermoved)
 }
-startbootenx.addEventListener("click", function(){startgame(1)});
-startbooteno.addEventListener("click", function(){startgame(0)});
+startbootenx.addEventListener("click", function(){
+    startgame(1);
+    winner = 2;
+    bubble.style.display = "";
+    enemyicon.style.display = "";
+    if (gamestarted != true)
+    {
+        setInterval(function(){checkforwin(currentboard)}, 250);
+    }
+    gamestarted = true;
+});
+startbooteno.addEventListener("click", function(){
+    startgame(0);
+    winner = 2;
+    bubble.style.display = "";
+    enemyicon.style.display = "";
+    if (gamestarted != true)
+    {
+        setInterval(function(){checkforwin(currentboard)}, 250);
+    }
+    gamestarted = true;
+});
+function draw(aparam)
+{
+    let thing = Array.from(aparam);
+    return thing.filter((value) => value != "X" && value != "O");
+}
 function checkforwin(boardd)//0 is o and 1 is x
 {
     for (let i = 0; i < 9; i++)
@@ -36,6 +64,15 @@ function checkforwin(boardd)//0 is o and 1 is x
                         if (i != j && i != k && j != k)
                         {
                             gameend = true;
+                            winner = 0;
+                            if (snowysymbol == winner)
+                            {
+                                bubble.innerHTML = "yay! victory!";
+                            } 
+                            else if (playersymbol == winner)
+                            {
+                                bubble.innerHTML = "that does not compute."
+                            }
                             return 1;
                         }
                         
@@ -48,6 +85,15 @@ function checkforwin(boardd)//0 is o and 1 is x
                         if (i != j && i != k && j != k)
                         {
                             gameend = true;
+                            winner = 1;
+                            if (snowysymbol == winner)
+                            {
+                                bubble.innerHTML = "yay! victory!";
+                            } 
+                            else if (playersymbol == winner)
+                            {
+                                bubble.innerHTML = "that does not compute."
+                            }
                             return 1;
                         }   
                     }
@@ -55,10 +101,19 @@ function checkforwin(boardd)//0 is o and 1 is x
             }
         }
     }
+    if (draw(boardd).length == 0)
+    {
+        bubble.innerHTML = "you got lucky."
+        gameend = true;
+        winner = 3;
+        return 1;
+    }
     return 0;
 }
+
 function playermoved()
 {
+
     if (!this.innerHTML && gameend == false)
     {
         if (playersymbol == 0)
@@ -72,8 +127,13 @@ function playermoved()
         checkforwin(currentboard);
         if (gameend != true)
         {
-            playmove();
-            checkforwin(currentboard);
+            bubble.innerHTML = "hmmm...";
+            setTimeout(function(){
+                setTimeout(function(){playmove()}, 30);
+                checkforwin(currentboard);
+        },30);
+            
+
         } 
     }
 }
@@ -235,15 +295,29 @@ function playmove() {
     //minimax or magic square
     }
     var bestplayinfo = algorithm(theboard, snowysymbol);
-    if (snowysymbol == 1)
-    {
-        currentboard[bestplayinfo.index].innerHTML = "X";
-    }
+    if (bestplayinfo.index < 9)
+    { 
+        if (snowysymbol == 1)
+        {
+            currentboard[bestplayinfo.index].innerHTML = "X";
+        }
+        else
+        {
+            currentboard[bestplayinfo.index].innerHTML = "O";
+        }
+        if (bestplayinfo.score > 0)
+        {
+            bubble.innerHTML = "You just made a big mistake."
+        }
+        let splashes = ["you must realize you are doomed!","I have infinite elo, i have seen the game through.","you cannot win, my depth is infinite.","the possibilities of you winning are infinity to 1.","give up, dude!"];
+        let random = Math.round(Math.random() * 4);
+        bubble.innerHTML = splashes[random];
+    }   
     else
     {
-        currentboard[bestplayinfo.index].innerHTML = "O";
+        bubble.innerHTML = "you got lucky."
+        gameend = true;
     }
-    
 }
 
 

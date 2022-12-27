@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded',function()
     });
     tictactoe.addEventListener("click", function(){
         splash.innerHTML = "starting tic-tac-toe!";
-        window.open("games/tictactoe.html", popup = true);
+        window.open("games/tictactoe.html", "_blank", popup = true);
     });
 });
 
