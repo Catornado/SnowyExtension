@@ -21,3 +21,14 @@ div {
 body {
     background-color: red;
 }
+
+#speechbubble {
+    font-size: 15pt !important;
+    width: 200px !important;
+}
+
+
+.booten {
+    position: absolute !important;
+    bottom: 0px !important; 
+}

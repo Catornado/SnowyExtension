@@ -7,11 +7,8 @@
         <script defer type="text/javascript" src="tictactoeai.js"></script>
     </head>
     <body>
-        <button id="startx">Start as X</button>
-        <button id="starto">Start as O</button>
-        <button id="second" disabled>Play Second</button>
-        <br>
-        <br>
+        <img id='snowyhead' src="/sysimages/snowyhead.png" alt="enemy snowy" style="position:absolute; left:20px; bottom: 400px; display:none">
+        <div id="speechbubble" style="position:absolute; left:150px; bottom: 400px; display:none"></div>
         <div class="container">
             <div id="cell one" class="cell"></div>
             <div id="cell two" class="cell"></div>
@@ -25,7 +22,13 @@
             <div id="cell eight" class="cell"></div>
             <div id="cell nine" class="cell"></div>
         </div>
-
-
+        <!--
+        <div class="slidecontainer">
+            <p id="difficultytext"></p>
+            <input type="range" min="1" max="2" value="1" class="slider" id="range">
+        </div>
+    -->
+        <button id="startx" class="booten" style="left:200px">Start as X</button>
+        <button id="starto" class="booten" style="left:300px">Start as O</button>
     </body>
 </html>
