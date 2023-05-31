@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded',function()
     let summonsnowy = document.querySelector("#summon");
     let createsnowy = document.querySelector("#create");
     let tictactoe = document.querySelector("#tictactoe");
+    let chess = document.querySelector("#chess");
     let splash = document.querySelector("#splashmessage");
     let random = 0;
     let injected = 0;
@@ -52,7 +53,12 @@ document.addEventListener('DOMContentLoaded',function()
     });
     tictactoe.addEventListener("click", function(){
         splash.innerHTML = "starting tic-tac-toe!";
-        window.open("games/tictactoe.html", popup = true);
+        window.open("games/tictactoe.html", "_blank", popup=true, innerHeight=400, innerWidth=300);
+    });
+    chess.addEventListener("click", function(){
+        splash.innerHTML = "starting chess!";
+        window.open("games/chess.html", "_blank", popup=true, innerHeight=400, innerWidth=300);
+
     });
 });
 

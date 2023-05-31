@@ -1,10 +1,32 @@
 div {
-    background-color:white;
+    background-color:green;
     position: static;
     float: left;
     height: 30px;
+    text-align: center;
+    font-size: 30pt;
+    font-family: 'Microsoft Sans Serif', Tahoma, sans-serif;
     width: 30px;
+    margin: auto;
 }
+.container {
+    display: grid;
+    gap: 0px;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
+}
+
+/*.container > div {
+    background-color: #ffffff;
+}
+
+.container > div:nth-child(even) {
+    background-color: green;
+}
+
+.container > div:nth-child(1n) {
+    background-color: rgb(255, 255, 255);
+}*/
+
 body {
     background-color: red;
 }
